@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -116,50 +115,48 @@ CUERPO DOCUMENTO
 
   if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"){
 
-   echo '<div class="wrapper">';
+		echo '<div class="wrapper">';
 
-    /*=============================================
-    CABEZOTE
-    =============================================*/
+			/*=============================================
+			CABEZOTE
+			=============================================*/
 
-    include "modulos/header.php";
+			include "modulos/header.php";
 
-    /*=============================================
-    MENU
-    =============================================*/
+			/*=============================================
+			MENU
+			=============================================*/
 
-    include "modulos/menu.php";
+			include "modulos/menu.php";
 
-    /*=============================================
-    CONTENIDO
-    =============================================*/
+			/*=============================================
+			CONTENIDO
+			=============================================*/
 
-    if(isset($_GET["ruta"])){
+			if(isset($_GET["ruta"])){
 
-      if($_GET["ruta"] == "crear-matricula" ||
-         $_GET["ruta"] == "profesores" ||
-         $_GET["ruta"] == "ocupacion" ||
-         $_GET["ruta"] == "alumnos" ||
-         $_GET["ruta"] == "usuarios" ||
-         $_GET["ruta"] == "asistencia" ||
-         $_GET["ruta"] == "notas" ||
-         $_GET["ruta"] == "ocupaciones" ||
-         $_GET["ruta"] == "correo" ||
-         $_GET["ruta"] == "cursoNotas" ||
-         $_GET["ruta"] == "asistenciaCurso" ||
-         $_GET["ruta"] == "salir"){
+				if($_GET["ruta"] == "crear-matricula" ||
+					$_GET["ruta"] == "profesores" ||
+					$_GET["ruta"] == "ocupacion" ||
+					$_GET["ruta"] == "alumnos" ||
+					$_GET["ruta"] == "usuarios" ||
+					$_GET["ruta"] == "asistencia" ||
+					$_GET["ruta"] == "notas" ||
+					$_GET["ruta"] == "ocupaciones" ||
+					$_GET["ruta"] == "correo" ||
+					$_GET["ruta"] == "cursoNotas" ||
+					$_GET["ruta"] == "asistenciaCurso" ||
+					$_GET["ruta"] == "salir"){
 
-        include "modulos/".$_GET["ruta"].".php";
-      }else{
+					include "modulos/".$_GET["ruta"].".php";
+				}else{
 
-        include "modulos/404.php";
-      }
-
-    }else{
-
-      include "modulos/crear-matricula.php";
-
-    }
+					include "modulos/404.php";
+				}
+			}
+			else{
+				include "modulos/crear-matricula.php";
+			}
 
     /*=============================================
     FOOTER

@@ -12,7 +12,8 @@ class ModeloAlumnos
 	static public function mdlIngresarAlumno($tabla, $datos)
 	{
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, opcionOcupacional, condicion, turno, observaciones, nombre, dni, ocupacion, fechaNacimiento, nacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES (:codigo, :opcionOcupacional, :condicion, :turno, :observaciones, :nombre, :dni, :ocupacion, :fechaNacimiento, :nacionalidad, :lugarNacimiento, :idioma, :correo, :institucion, :calle, :numero, :distrito, :provincia, :departamento, :telefono, :nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, :domicilioApoderado, :firma)");
+		$conexion = Conexion::conectar();
+		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, opcionOcupacional, condicion, turno, observaciones, nombre, dni, ocupacion, fechaNacimiento, nacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES (:codigo, :opcionOcupacional, :condicion, :turno, :observaciones, :nombre, :dni, :ocupacion, :fechaNacimiento, :nacionalidad, :lugarNacimiento, :idioma, :correo, :institucion, :calle, :numero, :distrito, :provincia, :departamento, :telefono, :nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, :domicilioApoderado, :firma)");
 
 		$stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
 		$stmt->bindParam(":opcionOcupacional", $datos["ocupacion"], PDO::PARAM_STR);
@@ -43,8 +44,7 @@ class ModeloAlumnos
 		$stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
-
-			return "ok";
+			return $conexion -> lastInsertId();
 		} else {
 
 			return "error";

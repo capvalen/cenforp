@@ -48,9 +48,9 @@ class ControladorAlumnos
 					"firma" => $_POST["nuevaFirma"]
 				);
 
-				$respuesta = ModeloAlumnos::mdlIngresarAlumno($tabla, $datos);
+				$respuestaID = ModeloAlumnos::mdlIngresarAlumno($tabla, $datos);
 
-				if ($respuesta == "ok") {
+				if ( $respuestaID>0 ) {
 
 					echo '<script>
 
@@ -58,14 +58,13 @@ class ControladorAlumnos
 						  type: "success",
 						  title: "El alumno ha sido guardado correctamente",
 						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
+						  showCancelButton: false,
+						  confirmButtonText: "Ver Constancia"
 						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "alumnos";
-
-									}
-								})
+								if (result.value) {
+								window.open( "extensiones/constancia-matricula.php?id='.$respuestaID.'", "blank");
+								}
+							})
 
 					</script>';
 				}

@@ -67,7 +67,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" id="nuevoOcupacion" name="nuevoOcupacion" required>
 
-                  <option value="">Selecionar ocupación</option>
+                  <option value="">Seleccionar ocupación</option>
 
                   <?php
 
@@ -110,7 +110,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoCondicion" required>
 
-                  <option value="">Selecionar condición</option>
+                  <option value="">Seleccionar condición</option>
 
                   <option value="Becado">Becado</option>
                   <option value="Regular">Regular</option>
@@ -131,7 +131,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoTurno" required>
 
-                  <option value="">Selecionar turno</option>
+                  <option value="">Seleccionar turno</option>
 
                   <option value="Mañana">Mañana</option>
                   <option value="Tarde">Tarde</option>
@@ -151,7 +151,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 
-                <input type="text" class="form-control input-lg" name="nuevoObservaciones" placeholder="Ingresar observaciones" required>
+                <input type="text" class="form-control input-lg" name="nuevoObservaciones" placeholder="Ingresar observaciones">
 
               </div>
 
@@ -180,11 +180,11 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
 
-                <select class="form-control input-lg" name="nuevoOcupacionEstudiante" required>
+                <select class="form-control input-lg" name="nuevoEstadoCivil" required>
 
-                  <option value="">Selecionar ocupacion del estudiante</option>
+                  <option value="">Seleccionar ocupación del estudiante</option>
 
-                  <option value="Soltero">Soltero</option>
+                  <option value="Estudiante">Estudiante</option>
                   <option value="Ama De Casa">Ama De Casa</option>
                   <option value="Trabajador Independiente">Trabajador Independiente</option>
                   <option value="Desempleado">Desempleado</option>
@@ -220,9 +220,9 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoOcupacionEstudiante" required>
 
-                  <option value="">Selecionar estado civil</option>
+                  <option value="">Seleccionar estado civil</option>
 
-                  <option value="Estudiante">Estudiante</option>
+                  <option value="Soltero">Soltero</option>
                   <option value="Casado">Casado</option>
                   <option value="Divorciado">Divorciado</option>
                   <option value="Conviviente">Conviviente</option>
@@ -257,7 +257,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoNacionalidad" required>
 
-                  <option value="">Selecionar nacionalidad</option>
+                  <option value="">Seleccionar nacionalidad</option>
 
                   <option value="Peruana">Peruana</option>
                   <option value="Venezolana">Venezolana</option>
@@ -291,7 +291,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoIdioma" required>
 
-                  <option value="">Selecionar idioma</option>
+                  <option value="">Seleccionar idioma</option>
 
                   <option value="Español">Español</option>
                   <option value="Otra">Otra</option>
@@ -353,7 +353,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <span class="input-group-addon"><i class="fa fa-home"></i></span>
 
-                <input type="text" class="form-control input-lg" name="nuevoNumero" placeholder="Ingresar numero de la cuadra" required>
+                <input type="text" class="form-control input-lg" name="nuevoNumero" placeholder="Ingresar numero de la calle" required>
 
               </div>
 
@@ -436,9 +436,9 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevaOcupacionApoderado" required>
 
-                  <option value="">Selecionar ocupacion del apoderado</option>
+                  <option value="">Seleccionar ocupación del apoderado</option>
 
-                  <option value="Soltero">Soltero</option>
+                  <option value="Trabajador Dependiente">Trabajador dependiente</option>
                   <option value="Ama De Casa">Ama De Casa</option>
                   <option value="Trabajador Independiente">Trabajador Independiente</option>
                   <option value="Desempleado">Desempleado</option>
@@ -459,7 +459,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevaGradoApoderado" required>
 
-                  <option value="">Selecionar grado de instrucción del apoderado</option>
+                  <option value="">Seleccionar grado de instrucción del apoderado</option>
 
                   <option value="Primaria">Primaria</option>
                   <option value="Secundaria">Secundaria</option>
@@ -483,7 +483,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevoEstadoCivilApoderado" required>
 
-                  <option value="">Selecionar estado civil del apoderado</option>
+                  <option value="">Seleccionar estado civil del apoderado</option>
 
                   <option value="Soltero">Soltero</option>
                   <option value="Casado">Casado</option>
@@ -506,7 +506,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <select class="form-control input-lg" name="nuevaNacionalidadApoderado" required>
 
-                  <option value="">Selecionar nacionalidad del apoderado</option>
+                  <option value="">Seleccionar nacionalidad del apoderado</option>
 
                   <option value="Peruana">Peruana</option>
                   <option value="Venezolano">Venezolano</option>
@@ -525,20 +525,20 @@ if ($_SESSION["perfil"] == "Docente") {
 
                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 
-                <input type="text" class="form-control input-lg" name="nuevaDomicilioApoderado" placeholder="Ingresar domocilio" required>
+                <input type="text" class="form-control input-lg" name="nuevaDomicilioApoderado" placeholder="Ingresar domicilio" required>
 
               </div>
 
             </div>
             <!-- ENTRADA PARA LA DIRECCIÓN -->
 
-            <div class="form-group">
+            <div class="form-group d-none">
 
               <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
 
-                <input type="text" class="form-control input-lg" name="nuevaFirma" placeholder="Ingresar firma" required>
+                <input type="text" class="form-control input-lg" name="nuevaFirma" placeholder="Ingresar firma">
 
               </div>
 

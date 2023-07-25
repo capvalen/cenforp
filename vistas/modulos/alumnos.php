@@ -93,9 +93,8 @@ if ($_SESSION["perfil"] == "Secretaria") {
                     <td>' . $value["opcionOcupacional"] . '</td>             
 
                     <td>
-
                       <div class="btn-group">
-                          
+                        <a class="btn btn-success" href="extensiones/constancia-matricula.php?id='.$value["id"].'" target=_blank><i class="fa fa-file-o" aria-hidden="true"></i></a>
                         <button class="btn btn-warning btnEditarAlumno" data-toggle="modal" data-target="#modalEditarAlumno" idAlumno="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>';
 
               if ($_SESSION["perfil"] == "Administrador" or $_SESSION["perfil"] == "Secretario") {

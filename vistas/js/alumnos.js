@@ -60,4 +60,53 @@ $(".tablas").on("click", ".btnEliminarAlumno", function(){
 
   })
 
+});
+/*=============================================
+Registrar asistencia
+=============================================*/
+$('#btnRegistrarAsistencia').click(function(){
+	var ids = [];
+	var campos = $('tbody .checks');
+
+	campos.each(function (){
+		ids.push({id: $(this).data('id'), presente: $(this).find('input').is(":checked")? 1:0 })
+	})
+	//console.log('ids',ids);
+
+	var datos = new FormData();
+	datos.append('tipo', 'registrarAsistencia' )
+	datos.append('fecha', $('#txtFechaAsistencia').val() )
+	datos.append('idAlumnos', JSON.stringify(ids) )
+	$.ajax({
+		url:"ajax/alumnos.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"text",
+		success: function(respuesta){
+			if(respuesta == 'ok'){
+				swal({
+					title: 'Registro de asistencia guardado',
+					type: 'success',
+					showCancelButton: false,
+					confirmButtonText: 'Finalizar!'
+				}).then(function(result){
+					if (result.value) {
+							location.reload();
+					}else{
+						alert('Error al actualizar')
+					}
+		})
+			}
+		}
+	});
+	
+});
+
+
+$('#btnPasarAsistencia').click(function (){
+	$('.checks').removeClass('hidden')
+	$('.acciones').addClass('hidden')
 })

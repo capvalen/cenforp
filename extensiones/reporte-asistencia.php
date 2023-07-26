@@ -1,5 +1,5 @@
 <?php
-require_once('tcpdf_include.php');
+require_once( './TCPDF-main/tcpdf.php' );
 
 // Configuración de conexión a la base de datos
 $servername = "localhost";
@@ -17,29 +17,28 @@ if ($conn->connect_error) {
 
 // Obtener los datos de la base de datos
 if(isset($_GET['idOcupacion']))
-	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos WHERE idOcupacion = {$_GET['idOcupacion']};";
+	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion WHERE idOcupacion = {$_GET['idOcupacion']};";
+else if(isset($_GET['idAlumno']))
+	$sql = "SELECT  a.*, u.nombre as nomDocente FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion
+	inner join usuarios u on u.idOcupacion = a.idOcupacion WHERE a.id = {$_GET['idAlumno']};";
 else
-	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos";
+	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion";
 $result = $conn->query($sql);
 
 $data = array();
+$dataFechas = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        
-
-        $data[] = [
-            'codigo' => $row["codigo"],
-            'nombre' => $row["nombre"],
-            'documento' => $row["dni"],
-            'ocupacion' => $row["ocupacion"],
-            'asistencia' => $row["asistencia"],
-            'mes' => $row["mes"],
-            
-        ];
+        $data[] = $row;
     }
-}
 
+		$fechas = "SELECT *, case presente when '1' then 'Presente' else 'Falta' end as estado  FROM asistencias a WHERE idAlumno ={$_GET['idAlumno']}; ";
+		$resFechas = $conn->query($fechas);
+		while($rowF = $resFechas->fetch_assoc() ){
+			$dataFechas[] = $rowF;
+		}
+}
 // Cerrar la conexión a la base de datos
 $conn->close();
 
@@ -59,39 +58,31 @@ $pdf->Cell(0, 10, 'Reporte de Registro de Asistencia ', 0, 1, 'C');
 // Logo
 $pdf->Image('ruta_del_logo.png', 15, 20, 30, '', '', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
-$pdf->SetFont('helvetica', 'B', 14);
-$pdf->Cell(0, 10, 'Instructor: Leopoldo Méndez Sanchez- Turno: Mañana', 0, 1, 'C');
+$pdf->SetFont('helvetica', '', 12);
+$pdf->Cell(0, 10, 'Instructor: '.$data[0]["nomDocente"].'- Turno: '.$data[0]['turno'], 0, 1, 'L');
+$pdf->Cell(0, 10, 'Alumno: '.$data[0]["nombre"] , 0, 1, 'L');
 
 
 // Contenido del reporte
 $pdf->SetFont('helvetica', '', 10);
-$pdf->Ln(20); // Espacio después del título y el logo
+$pdf->Ln(); // Espacio después del título y el logo
 
 // Generar la tabla con los datos de los alumnos
 $table = '<table border="1" cellpadding="5">
     <thead>
         <tr>
             <th>#</th>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Documento ID</th>
-            <th>Ocupación</th>
-            <th>Asistencia</th>
-            <th>Mes</th>
-            
+            <th>Fecha</th>
+            <th>Estado</th>
         </tr>
     </thead>
     <tbody>';
 
-foreach ($data as $key => $row) {
+foreach ($dataFechas as $key=> $row) {
     $table .= '<tr>';
     $table .= '<td>' . ($key + 1) . '</td>';
-    $table .= '<td>' . $row["codigo"] . '</td>';
-    $table .= '<td>' . $row["nombre"] . '</td>';
-    $table .= '<td>' . $row["documento"] . '</td>';
-    $table .= '<td>' . $row["ocupacion"] . '</td>';
-    $table .= '<td>' . $row["asistencia"] . '</td>';
-    $table .= '<td>' . $row["mes"] . '</td>';
+    $table .= '<td>' . $row["fecha"] . '</td>';
+    $table .= '<td>' . $row['estado'] . '</td>';
 
     $table .= '</tr>';
 }

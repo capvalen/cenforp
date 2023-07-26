@@ -20,13 +20,24 @@ if ($_SESSION["perfil"] == "Secretario") {
 
   <div style="display: flex; justify-content: center;" class="card-footer">
 
-<a href="/extensiones/TCPDF-main/examples/reporteasistencia.php" class="btn btn-dark" style="background-color: #808080; color: #ffffff;" target="_blank">Descargar Reporte</a>
+<button class="btn btn-primary" id="btnPasarAsistencia" style="margin-right:10px">Tomar asistencia</button>
+<a href="/extensiones/TCPDF-main/examples/reporteasistencia.php?idOcupacion=<?= $_SESSION['idOcupacion']?>" class="btn btn-dark" style="background-color: #808080; color: #ffffff;" target="_blank">Descargar Reporte</a>
 
 </div>
+
 
   <section class="content">
     <div class="box">
       <div class="box-body">
+
+			<div class="row checks hidden" style="margin: 10px 0;" >
+				<div class="col-sm-6 form-inline">
+					<label for="">Fecha de asistencia</label>
+					<input id="txtFechaAsistencia" type="date" class="form-control" value="<?= date('Y-m-d')?>">
+					<button class="btn btn-success" id="btnRegistrarAsistencia"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar asistencia</button>
+				</div>
+			</div>
+
         <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
           <thead>
             <tr>
@@ -36,7 +47,8 @@ if ($_SESSION["perfil"] == "Secretario") {
               <th>Ocupación matriculado</th>
               <th>Asistencias</th>
               <th>Mes</th>
-              <th>Acciones</th>
+							<th class="checks hidden">Marcar</th>
+              <th class="acciones">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -45,8 +57,8 @@ if ($_SESSION["perfil"] == "Secretario") {
             $valor = $_SESSION["usuario"];
             $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-            $item = "opcionOcupacional";
-            $valor = $usuarios["opcionOcupacional"];
+            $item = "idOcupacion";
+            $valor = $usuarios["idOcupacion"];
             $Alumnos = ControladorAlumnos::ctrMostrarAlumnoPorCurso($item, $valor);
 
             foreach ($Alumnos as $key => $value) {
@@ -54,11 +66,17 @@ if ($_SESSION["perfil"] == "Secretario") {
                 <td>' . $value["codigo"] . '</td>
                 <td>' . $value["nombre"] . '</td>
                 <td>' . $value["dni"] . '</td>
-                <td>' . $value["opcionOcupacional"] . '</td>             
+                <td>' . $value["opcionOcupacional"] . '</td>
                 <td>' . $value["asistencia"] . '</td>    
-                <td>' . $value["mes"] . '</td>         
-                <td>
+                <td>' . $value["mes"] . '</td>
+                <td class="checks hidden" data-id="'.$value['id'].'">
+									<div class="checkbox">
+									<label> <input type="checkbox" checked >  </label>
+									</div>
+								</td>
+                <td class="acciones">
                   <div class="btn-group">
+										<a href="/extensiones/reporte-asistencia.php?idAlumno='.$value['id'].'" class="btn btn-success" target="_blank" idAlumno="' . $value["id"] . '"><i class="fa fa-file-o"></i></a>
                     <button class="btn btn-warning btnEditarAlumno" data-toggle="modal" data-target="#modalEditarAlumno" idAlumno="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>';
 
               if ($_SESSION["perfil"] == "Administrador") {

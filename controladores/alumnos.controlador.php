@@ -9,6 +9,7 @@ class ControladorAlumnos
 	static public function ctrCrearAlumno()
 	{
 
+		//var_dump($_POST); die();
 		if (isset($_POST["nuevoCodigo"])) {
 
 			if (
@@ -23,12 +24,13 @@ class ControladorAlumnos
 					"condicion" => $_POST["nuevoCondicion"],
 					"turno" => $_POST["nuevoTurno"],
 					"observaciones" => $_POST["nuevoObservaciones"],
+					"idOcupacion" => $_POST["nuevoOcupacion"],
 					"nombre" => $_POST["nuevoNombre"],
 					"estadoCivil" => $_POST["nuevoEstadoCivil"],
 					"dni" => $_POST["nuevoDNI"],
 					"ocupacion" => $_POST["nuevoOcupacion"],
 					"fechaNacimiento" => $_POST["nuevaFechaNacimiento"],
-					"nacionalidad" => $_POST["nuevoNacionalidad"],
+					"idNacionalidad" => intval($_POST["nuevoNacionalidad"]),
 					"lugarNacimiento" => $_POST["nuevoLugarNacimiento"],
 					"idioma" => $_POST["nuevoIdioma"],
 					"correo" => $_POST["nuevoCorreo"],

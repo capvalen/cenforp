@@ -17,7 +17,13 @@ if ($conn->connect_error) {
 }
 
 // Obtener los datos de la base de datos
-$sql = "SELECT *, date_format(registro, '%d/%m/%Y %h:%i %p') as fechaRegistro FROM alumnos where id = {$_GET['id']}";
+$sql = "SELECT a.*, date_format(registro, '%d/%m/%Y %h:%i %p') as fechaRegistro, o.opcionOcupacional, d.name as nomDepartamento, p.name as nomProvincia, di.name as nomDistrito, na.nacionalidad FROM alumnos a
+inner join ocupaciones o on o.id = a.idOcupacion
+inner join udepartamentos d on d.id = a.departamento
+inner join uprovincias p on p.id = a.provincia
+inner join udistritos di on di.id = a.distrito
+inner join nacionalidad na on na.id = a.idNacionalidad
+ where a.id = {$_GET['id']}";
 $result = $conn->query($sql);
 
 $data = array();
@@ -49,7 +55,7 @@ $pdf->Cell(0, 10, 'Constancia de matrícula ', 0, 1, 'C');
 
 
 $pdf->SetFont('helvetica', 'B', 10);
-$pdf->Cell(0, 0, 'Fecha de reporte: ' . date("d/m/Y") , 0, 1, 'C');
+/* $pdf->Cell(0, 0, 'Fecha de reporte: ' . date("d/m/Y") , 0, 1, 'C'); */
 
 
 // Contenido del reporte
@@ -59,7 +65,7 @@ $pdf->Ln(); // Espacio después del título y el logo
 //$pdf->writeHTML($p, true, false, false, false, '');
 
 
-$pdf->Cell(0, 0, 'Datos del alumno: ' , 0, 1);
+$pdf->Cell(0, 0, 'Datos de la matrícula: ' , 0, 1);
 $pdf->SetFont('helvetica', '', 10);
 
 
@@ -73,6 +79,11 @@ $table = '<table border="0.5" cellpadding="3" style="border-color: #ccc">
 $table .= '</tbody></table>';
 $pdf->writeHTML($table, true, false, false, false, '');
 
+$pdf->SetFont('helvetica', 'B', 10);
+
+$pdf->Cell(0, 0, 'Datos del alumno: ' , 0, 1);
+$pdf->SetFont('helvetica', '', 10);
+
 $table = '<table border="0.5" cellpadding="3" style="border-color: #ccc">
 	<tbody>';
 	
@@ -81,7 +92,7 @@ $table = '<table border="0.5" cellpadding="3" style="border-color: #ccc">
 	$table .= '<td>' . "<p><strong>Dni:</strong> {$data['dni']}</p>" . '</td>' . '</tr>';
 	$table .=  '<tr>'. '<td>' . "<p><strong>F. Nac.:</strong> {$data['fechaNacimiento']}</p>" . '</td>';
 	$table .= '<td>' . "<p><strong>Código:</strong> {$data['codigo']}</p>" . '</td>' . '</tr>';
-	$table .=  '<tr>'. '<td colspan="2">' . "<p><strong>Dirección:</strong> {$data['calle']} {$data['numero']} {$data['distrito']} - {$data['provincia']} - {$data['departamento']} </p>" . '</td>' . '</tr>';
+	$table .=  '<tr>'. '<td colspan="2">' . "<p><strong>Dirección:</strong> {$data['calle']} {$data['numero']} {$data['nomDepartamento']} - {$data['nomProvincia']} - {$data['nomDistrito']} </p>" . '</td>' . '</tr>';
 	$table .= '<tr>'. '<td>' . "<p><strong>Teléfono:</strong> {$data['telefono']}</p>" . '</td>' . '</tr>';
 	$table .=  '<tr>'. '<td>' . "<p><strong>Opcion Ocupacional:</strong> {$data['opcionOcupacional']}</p>" . '</td>';
 	$table .= '<td>' . "<p><strong>Condición:</strong> {$data['condicion']}</p>" . '</td>' . '</tr>';
@@ -109,6 +120,9 @@ $table = '<table border="0.5" cellpadding="3" style="border-color: #ccc">
 	$table .=  '<tr>'. '<td colspan="2">' . "<p><strong>Domicilio Apoderado:</strong> {$data['domicilioApoderado']} {$data['numero']} {$data['distrito']} - {$data['provincia']} - {$data['departamento']} </p>" . '</td>' . '</tr>';
 $table .= '</tbody></table>';
 $pdf->writeHTML($table, true, false, false, false, '');
+
+$pdf->Cell(0, 10, 'Firma: ' , 0, 1);
+$pdf->Rect(40, 160, 30	, 40, 'D');
 
 // Pie de página con numeración
 $pdf->SetY(-15);

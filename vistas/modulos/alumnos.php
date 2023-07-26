@@ -90,7 +90,7 @@ if ($_SESSION["perfil"] == "Secretaria") {
 
                     <td>' . $value["fechaNacimiento"] . '</td>     
 
-                    <td>' . $value["opcionOcupacional"] . '</td>             
+                    <td>' . $value["idOcupacion"] . '</td>             
 
                     <td>
                       <div class="btn-group">
@@ -232,7 +232,7 @@ MODAL EDITAR ALUMNO
 
                   foreach ($ocupacions as $key => $value) {
 
-                    echo '<option value="' . $value["opcionOcupacional"] . '">' . $value["opcionOcupacional"] . '</option>';
+                    echo '<option value="' . $value["idOcupacion"] . '">' . $value["ocupacion"] . '</option>';
                   }
 
                   ?>

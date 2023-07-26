@@ -35,6 +35,7 @@ class ControladorUsuarios
 							$_SESSION["nombre"] = $respuesta["nombre"];
 							$_SESSION["usuario"] = $respuesta["usuario"];
 							$_SESSION["foto"] = $respuesta["foto"];
+							$_SESSION["idOcupacion"] = $respuesta["idOcupacion"];
 							$_SESSION["opcionOcupacional"] = $respuesta["opcionOcupacional"];
 							$_SESSION["perfil"] = $respuesta["perfil"];
 							/*=============================================

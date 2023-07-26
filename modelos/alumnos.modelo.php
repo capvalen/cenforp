@@ -13,33 +13,44 @@ class ModeloAlumnos
 	{
 
 		$conexion = Conexion::conectar();
-		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, opcionOcupacional, condicion, turno, observaciones, nombre, dni, ocupacion, fechaNacimiento, nacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES (:codigo, :opcionOcupacional, :condicion, :turno, :observaciones, :nombre, :dni, :ocupacion, :fechaNacimiento, :nacionalidad, :lugarNacimiento, :idioma, :correo, :institucion, :calle, :numero, :distrito, :provincia, :departamento, :telefono, :nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, :domicilioApoderado, :firma)");
+		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, idOcupacion, condicion, turno, observaciones, nombre, dni, ocupacion, fechaNacimiento, idNacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES
+		(:codigo, :idOcupacion, :condicion, :turno, :observaciones, 
+		:nombre, :dni, :ocupacion, :fechaNacimiento, :idNacionalidad, 
+		:lugarNacimiento, :idioma, :correo, :institucion, :calle, 
+		:numero, :distrito, :provincia, :departamento, :telefono, 
+		:nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, 
+		:domicilioApoderado, :firma)");
 
 		$stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
-		$stmt->bindParam(":opcionOcupacional", $datos["ocupacion"], PDO::PARAM_STR);
+		$stmt->bindParam(":idOcupacion", $datos["idOcupacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":condicion", $datos["condicion"], PDO::PARAM_STR);
 		$stmt->bindParam(":turno", $datos["turno"], PDO::PARAM_STR);
 		$stmt->bindParam(":observaciones", $datos["observaciones"], PDO::PARAM_STR);
+
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":dni", $datos["dni"], PDO::PARAM_STR);
 		$stmt->bindParam(":ocupacion", $datos["ocupacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
-		$stmt->bindParam(":nacionalidad", $datos["nacionalidad"], PDO::PARAM_STR);
+		$stmt->bindParam(":idNacionalidad", $datos["idNacionalidad"], PDO::PARAM_INT);
+
 		$stmt->bindParam(":lugarNacimiento", $datos["lugarNacimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":idioma", $datos["idioma"], PDO::PARAM_STR);
 		$stmt->bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
 		$stmt->bindParam(":institucion", $datos["institucion"], PDO::PARAM_STR);
 		$stmt->bindParam(":calle", $datos["calle"], PDO::PARAM_STR);
+
 		$stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_STR);
 		$stmt->bindParam(":distrito", $datos["distrito"], PDO::PARAM_STR);
 		$stmt->bindParam(":provincia", $datos["provincia"], PDO::PARAM_STR);
 		$stmt->bindParam(":departamento", $datos["departamento"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+
 		$stmt->bindParam(":nombreApoderado", $datos["nombreApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":ocupacionApoderado", $datos["ocupacionApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":grado", $datos["gradoApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":estadoCivil", $datos["estadoCivilApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":nacionalidadApoderado", $datos["nacionalidadApoderado"], PDO::PARAM_STR);
+
 		$stmt->bindParam(":domicilioApoderado", $datos["domicilioApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
 
@@ -69,7 +80,8 @@ class ModeloAlumnos
 			return $stmt->fetch();
 		} else {
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+			$stmt = Conexion::conectar()->prepare("SELECT a.*, date_format(registro, '%d/%m/%Y %h:%i %p') as fechaRegistro, o.opcionOcupacional FROM alumnos a
+			inner join ocupaciones o on o.id = a.idOcupacion");
 
 			$stmt->execute();
 
@@ -82,7 +94,7 @@ class ModeloAlumnos
 
 		if ($item != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on o.id = t.idOcupacion WHERE $item = :$item ");
 
 			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -179,6 +191,21 @@ class ModeloAlumnos
 		} else {
 
 			return "error";
+		}
+	}
+	static public function mdlRegistrarAsistencia($registros, $fecha){
+		foreach ($registros as $registro) {
+			$stmt = Conexion::conectar()->prepare("INSERT INTO `asistencias`( `idAlumno`, `fecha`, `presente`) VALUES ( :id, :fecha, :presente);
+			UPDATE `alumnos` SET `asistencia` = `asistencia` + :presente WHERE `alumnos`.`id` = :id; 
+			");
+
+			$stmt->bindParam(":id", $registro['id'], PDO::PARAM_STR);
+			$stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+			$stmt->bindParam(":presente", $registro['presente'], PDO::PARAM_STR);
+			$stmt->bindParam(":id", $registro['id'], PDO::PARAM_STR);
+			$stmt->bindParam(":presente", $registro['presente'], PDO::PARAM_STR);
+			if($stmt->execute()) return 'ok';
+			else return 'error';
 		}
 	}
 }

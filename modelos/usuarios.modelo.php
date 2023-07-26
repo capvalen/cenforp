@@ -12,7 +12,7 @@ class ModeloUsuarios{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on t.idOcupacion = o.id  WHERE $item = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 

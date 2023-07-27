@@ -87,11 +87,12 @@ $pdf->SetFont('helvetica', '', 10);
 $table = '<table border="0.5" cellpadding="3" style="border-color: #ccc">
 	<tbody>';
 	
-	$table .=  '<tr>'. '<td>' . "<p><strong>Nombre:</strong> {$data['nombre']}</p>" . '</td>';
+	$table .=  '<tr>'. '<td>' . "<p><strong>Apellidos:</strong> {$data['apellidos']}</p>" . '</td>';
+	$table .=  '<td>' . "<p><strong>Nombres:</strong> {$data['nombre']}</p>" . '</td>' . '</tr>';
 	
-	$table .= '<td>' . "<p><strong>Dni:</strong> {$data['dni']}</p>" . '</td>' . '</tr>';
-	$table .=  '<tr>'. '<td>' . "<p><strong>F. Nac.:</strong> {$data['fechaNacimiento']}</p>" . '</td>';
-	$table .= '<td>' . "<p><strong>Código:</strong> {$data['codigo']}</p>" . '</td>' . '</tr>';
+	$table .=  '<tr>'. '<td>' . "<p><strong>Dni:</strong> {$data['dni']}</p>" . '</td>';
+	$table .=  '<td>' . "<p><strong>F. Nac.:</strong> {$data['fechaNacimiento']}</p>" . '</td>' . '</tr>';
+	
 	$table .=  '<tr>'. '<td colspan="2">' . "<p><strong>Dirección:</strong> {$data['calle']} {$data['numero']} {$data['nomDepartamento']} - {$data['nomProvincia']} - {$data['nomDistrito']} </p>" . '</td>' . '</tr>';
 	$table .= '<tr>'. '<td>' . "<p><strong>Teléfono:</strong> {$data['telefono']}</p>" . '</td>' . '</tr>';
 	$table .=  '<tr>'. '<td>' . "<p><strong>Opcion Ocupacional:</strong> {$data['opcionOcupacional']}</p>" . '</td>';

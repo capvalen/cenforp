@@ -110,3 +110,10 @@ $('#btnPasarAsistencia').click(function (){
 	$('.checks').removeClass('hidden')
 	$('.acciones').addClass('hidden')
 })
+
+$(document).ready(function(){
+	var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ]
+	meses.forEach(mes=>{
+		$('#editarMes').append(`<option value="${mes}">${mes}</option>`)
+	})
+})

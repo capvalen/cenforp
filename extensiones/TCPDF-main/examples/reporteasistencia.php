@@ -17,9 +17,11 @@ if ($conn->connect_error) {
 
 // Obtener los datos de la base de datos
 if(isset($_GET['idOcupacion']))
-	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos WHERE idOcupacion = {$_GET['idOcupacion']};";
+	$sql = "SELECT o.opcionOcupacional, a.* FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion WHERE a.idOcupacion = {$_GET['idOcupacion']};";
 else
-	$sql = "SELECT codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos";
+	$sql = "SELECT o.opcionOcupacional, codigo, nombre, dni, ocupacion, asistencia, mes FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion;";
+
+//echo $sql;
 $result = $conn->query($sql);
 
 $data = array();
@@ -35,7 +37,7 @@ if ($result->num_rows > 0) {
             'ocupacion' => $row["ocupacion"],
             'asistencia' => $row["asistencia"],
             'mes' => $row["mes"],
-            
+            'opcionOcupacional' => $row["opcionOcupacional"],
         ];
     }
 }
@@ -51,6 +53,7 @@ $pdf->SetMargins(15, 15, 15, true);
 $pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(10);
 $pdf->AddPage();
+$pdf->Image( __DIR__.'../../../../vistas/img/logo/logo.png' , 0,1,25,25, '', '', '', false, 300, '', false, false, 0, false, false, false);
 
 // Título del reporte
 $pdf->SetFont('helvetica', 'B', 16);
@@ -65,10 +68,10 @@ $pdf->Cell(0, 10, 'Instructor: Leopoldo Méndez Sanchez- Turno: Mañana', 0, 1, 
 
 // Contenido del reporte
 $pdf->SetFont('helvetica', '', 10);
-$pdf->Ln(20); // Espacio después del título y el logo
+$pdf->Ln(2); // Espacio después del título y el logo
 
 // Generar la tabla con los datos de los alumnos
-$table = '<table border="1" cellpadding="5">
+$table = '<table border="1" cellpadding="1">
     <thead>
         <tr>
             <th>#</th>
@@ -89,7 +92,7 @@ foreach ($data as $key => $row) {
     $table .= '<td>' . $row["codigo"] . '</td>';
     $table .= '<td>' . $row["nombre"] . '</td>';
     $table .= '<td>' . $row["documento"] . '</td>';
-    $table .= '<td>' . $row["ocupacion"] . '</td>';
+    $table .= '<td>' . $row["opcionOcupacional"] . '</td>';
     $table .= '<td>' . $row["asistencia"] . '</td>';
     $table .= '<td>' . $row["mes"] . '</td>';
 

@@ -35,7 +35,7 @@ if ($_SESSION["perfil"] == "Secretario") {
 
   <div style="display: flex; justify-content: center;" class="card-footer">
 
-			<a href="/extensiones/TCPDF-main/examples/reporte.php" class="btn btn-dark" style="background-color: #808080; color: #ffffff;" target="_blank">Descargar Reporte</a>
+			<a href="/extensiones/TCPDF-main/examples/reporte.php?idOcupacion=<?= $_SESSION['idOcupacion']?>" class="btn btn-dark" style="background-color: #808080; color: #ffffff;" target="_blank">Descargar Reporte</a>
 
 			
 
@@ -55,7 +55,7 @@ if ($_SESSION["perfil"] == "Secretario") {
 
               <th style="width:10px">#</th>
               <th style="width:10px">Código</th>
-              <th>Nombre</th>
+              <th>Apellidos y Nombres</th>
               <th>Documento ID</th>
               <th>Ocupación</th>
               <th>Nota 1</th>
@@ -99,14 +99,14 @@ if ($_SESSION["perfil"] == "Secretario") {
 
                     <td>' . $value["codigo"] . '</td>
 
-                    <td>' . $value["nombre"] . '</td>
+                    <td>' . $value["apellidos"] . ' ' . $value["nombre"] . '</td>
 
                     <td>' . $value["dni"] . '</td>
 
                     <td>' . $value["opcionOcupacional"] . '</td>             
                     <td>' . $value["notaUno"] . '</td>             
                     <td>' . $value["notaDos"] . '</td>             
-                    <td>' . $value["notaTres"] . '</td>             
+                    <td>' . $value["notaTres"] . '</td>
                     <td>' . number_format($promedio, 2, ',', '.') . '</td>             
                     <td>' . $estado . '</td>             
                     <td>' . $value["mes"] . '</td>   

@@ -41,7 +41,7 @@ if ($_SESSION["perfil"] == "Docente") {
 
 			<div class="box-body">
 				<div class="row">
-					<div class="col-xs-12 col-md-6  ">
+					<div class="col-xs-12 col-md-12  ">
 						<div class="box box-primary ">
 							<div class="box-header">
 								<h4 class="text-primary">Código de Matricula</h4>
@@ -51,7 +51,7 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-code"></i></span>
-									<input type="text" class="form-control input-lg" id="nuevoCodigo" name="nuevoCodigo" placeholder="101" >
+									<input type="text" class="form-control text-uppercase input-lg" id="nuevoCodigo" name="nuevoCodigo" placeholder="101" >
 								</div>
 								</div>
 								<!-- ENTRADA PARA SELECCIONAR OCUPACION -->
@@ -104,12 +104,16 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-									<input type="text" class="form-control input-lg" name="nuevoObservaciones" placeholder="Ingresar observaciones">
+									<input type="text" class="form-control text-uppercase input-lg" name="nuevoObservaciones" placeholder="Ingresar observaciones">
 								</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					
+				</div>
+
+				<div class="row">
 					<div class="col-xs-12 col-md-6 ">
 						<div class="box box-primary">
 							<div class="box-header">
@@ -120,7 +124,13 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-user"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoNombre" placeholder="Ingresar nombre y apellidos" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoApellido" placeholder="Ingresar apellidos" >
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoNombre" placeholder="Ingresar nombres" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL ESTADO CIVIL -->
@@ -141,7 +151,7 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoDNI" placeholder="Ingresar DNI" data-inputmask="'mask':'99999999'" data-mask >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoDNI" placeholder="Ingresar DNI" data-inputmask="'mask':'99999999'" data-mask >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL CENTRO DE ESTUDIO DONDE CULMINÓ -->
@@ -181,7 +191,7 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoLugarNacimiento" placeholder="Ingresar lugar de nacimiento" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoLugarNacimiento" placeholder="Ingresar lugar de nacimiento" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL CENTRO DE ESTUDIO DONDE CULMINÓ -->
@@ -199,22 +209,19 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoCorreo" placeholder="Ingresar correo electronico" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoCorreo" placeholder="Ingresar correo electronico" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL CENTRO DE ESTUDIO DONDE CULMINÓ -->
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoInstitucion" placeholder="Ingresar nombre de la institución anterior" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoInstitucion" placeholder="Ingresar nombre de la institución anterior" >
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="row">
 					<div class="col-xs-12 col-md-6 ">
 						<div class="box box-primary">
 							<div class="box-header">
@@ -280,7 +287,7 @@ if ($_SESSION["perfil"] == "Docente") {
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 col-md-6 ">
+					<div class="col-xs-12 col-md-12 ">
 						<div class="box box-primary">
 							<div class="box-header">
 								<h4 class="text-primary">Datos personales del padre/apoderado</h4>
@@ -290,7 +297,7 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevaNombreApoderado" placeholder="Ingresar nombre y apellidos" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevaNombreApoderado" placeholder="Ingresar nombre y apellidos" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA LA DIRECCIÓN -->
@@ -350,14 +357,14 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevaDomicilioApoderado" placeholder="Ingresar domicilio" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevaDomicilioApoderado" placeholder="Ingresar domicilio" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA LA DIRECCIÓN -->
 								<div class="form-group hidden">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevaFirma" placeholder="Ingresar firma">
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevaFirma" placeholder="Ingresar firma">
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL ARCHIVO ADJUNTO -->

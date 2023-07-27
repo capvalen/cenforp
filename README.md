@@ -21,3 +21,4 @@ UPDATE `usuarios` SET `idOcupacion` = '3' WHERE `usuarios`.`id` = 17;
 UPDATE `usuarios` SET `idOcupacion` = '4' WHERE `usuarios`.`id` = 18; 
 UPDATE `usuarios` SET `idOcupacion` = '5' WHERE `usuarios`.`id` = 19; 
 UPDATE `usuarios` SET `idOcupacion` = '6' WHERE `usuarios`.`id` = 20; 
+ALTER TABLE `alumnos` ADD `apellidos` VARCHAR(250) NOT NULL AFTER `nombre`; 

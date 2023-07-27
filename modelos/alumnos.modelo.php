@@ -13,9 +13,9 @@ class ModeloAlumnos
 	{
 
 		$conexion = Conexion::conectar();
-		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, idOcupacion, condicion, turno, observaciones, nombre, dni, ocupacion, fechaNacimiento, idNacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES
+		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, idOcupacion, condicion, turno, observaciones, nombre, apellidos, dni, ocupacion, fechaNacimiento, idNacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES
 		(:codigo, :idOcupacion, :condicion, :turno, :observaciones, 
-		:nombre, :dni, :ocupacion, :fechaNacimiento, :idNacionalidad, 
+		:nombre, :apellido, :dni, :ocupacion, :fechaNacimiento, :idNacionalidad, 
 		:lugarNacimiento, :idioma, :correo, :institucion, :calle, 
 		:numero, :distrito, :provincia, :departamento, :telefono, 
 		:nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, 
@@ -28,6 +28,7 @@ class ModeloAlumnos
 		$stmt->bindParam(":observaciones", $datos["observaciones"], PDO::PARAM_STR);
 
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+		$stmt->bindParam(":apellido", $datos["apellido"], PDO::PARAM_STR);
 		$stmt->bindParam(":dni", $datos["dni"], PDO::PARAM_STR);
 		$stmt->bindParam(":ocupacion", $datos["ocupacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
@@ -81,7 +82,7 @@ class ModeloAlumnos
 		} else {
 
 			$stmt = Conexion::conectar()->prepare("SELECT a.*, date_format(registro, '%d/%m/%Y %h:%i %p') as fechaRegistro, o.opcionOcupacional FROM alumnos a
-			inner join ocupaciones o on o.id = a.idOcupacion");
+			inner join ocupaciones o on o.id = a.idOcupacion order by apellidos asc");
 
 			$stmt->execute();
 
@@ -94,7 +95,7 @@ class ModeloAlumnos
 
 		if ($item != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on o.id = t.idOcupacion WHERE $item = :$item ");
+			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on o.id = t.idOcupacion WHERE $item = :$item order by apellidos asc ");
 
 			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 

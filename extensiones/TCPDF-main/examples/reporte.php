@@ -16,7 +16,8 @@ if ($conn->connect_error) {
 }
 
 // Obtener los datos de la base de datos
-$sql = "SELECT codigo, nombre, dni, ocupacion, notaUno, notaDos, notaTres, mes FROM alumnos";
+//$sql = "SELECT codigo, nombre, dni, ocupacion, notaUno, notaDos, notaTres, mes FROM alumnos";
+$sql = "SELECT a.*, o.opcionOcupacional FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion WHERE idOcupacion = {$_GET['idOcupacion']};";
 $result = $conn->query($sql);
 
 $data = array();
@@ -37,6 +38,7 @@ if ($result->num_rows > 0) {
             'mes' => $row["mes"],
             'promedio' => number_format($promedio, 2, ',', '.'),
             'estado' => $estado,
+            'opcionOcupacional' => $row["opcionOcupacional"],
             
         ];
     }
@@ -53,6 +55,7 @@ $pdf->SetMargins(15, 15, 15, true);
 $pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(10);
 $pdf->AddPage();
+$pdf->Image( __DIR__.'../../../../vistas/img/logo/logo.png' , 0,1,25,25, '', '', '', false, 300, '', false, false, 0, false, false, false);
 
 // Título del reporte
 $pdf->SetFont('helvetica', 'B', 16);
@@ -63,6 +66,7 @@ $pdf->Image('ruta_del_logo.png', 15, 20, 30, '', '', '', 'T', false, 300, '', fa
 
 $pdf->SetFont('helvetica', 'B', 14);
 $pdf->Cell(0, 10, 'Instructor: Leopoldo Méndez Sanchez- Turno: Mañana', 0, 1, 'C');
+$pdf->Cell(0, 10, 'Curso: ' . $data[0]['opcionOcupacional'], 0, 1, 'C');
 
 // Contenido del reporte
 $pdf->SetFont('helvetica', '', 10);
@@ -76,7 +80,6 @@ $table = '<table border="1" cellpadding="5">
             <th>Código</th>
             <th>Nombre</th>
             <th>Documento ID</th>
-            <th>Ocupación</th>
             <th>Nota 1</th>
             <th>Nota 2</th>
             <th>Nota 3</th>
@@ -93,7 +96,6 @@ foreach ($data as $key => $row) {
     $table .= '<td>' . $row["codigo"] . '</td>';
     $table .= '<td>' . $row["nombre"] . '</td>';
     $table .= '<td>' . $row["documento"] . '</td>';
-    $table .= '<td>' . $row["ocupacion"] . '</td>';
     $table .= '<td>' . $row["nota1"] . '</td>';
     $table .= '<td>' . $row["nota2"] . '</td>';
     $table .= '<td>' . $row["nota3"] . '</td>';

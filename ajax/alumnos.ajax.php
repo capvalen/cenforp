@@ -15,7 +15,7 @@ class AjaxAlumnos{
 
 	public function ajaxEditarAlumno(){
 
-		$item = "";
+		$item = "id";
 		$valor = $this->idAlumno;
 
 		$respuesta = ControladorAlumnos::ctrMostrarAlumnos($item, $valor);

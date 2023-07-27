@@ -42,7 +42,7 @@ if ($_SESSION["perfil"] == "Secretario") {
           <thead>
             <tr>
               <th style="width:10px">Código</th>
-              <th>Nombre</th>
+              <th>Apellidos y nombres</th>
               <th>Documento ID</th>
               <th>Ocupación matriculado</th>
               <th>Asistencias</th>
@@ -64,7 +64,7 @@ if ($_SESSION["perfil"] == "Secretario") {
             foreach ($Alumnos as $key => $value) {
               echo '<tr>
                 <td>' . $value["codigo"] . '</td>
-                <td>' . $value["nombre"] . '</td>
+                <td class="text-capitalize">' . $value["apellidos"] . ' '.  $value["nombre"].'</td>
                 <td>' . $value["dni"] . '</td>
                 <td>' . $value["opcionOcupacional"] . '</td>
                 <td>' . $value["asistencia"] . '</td>    
@@ -119,6 +119,7 @@ MODAL EDITAR ALUMNO
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon">DNI</span>
+                <span class="input-group-addon">DNI</span>
                 <input type="number" min="0" class="form-control input-lg" name="editarDocumentoId" id="editarDocumentoId" required>
               </div>
             </div>
@@ -132,10 +133,7 @@ MODAL EDITAR ALUMNO
               <div class="input-group">
                 <span class="input-group-addon">Mes</span>
                 <select class="form-control" name="editarMes" id="editarMes" required>
-                  <option value="Enero">Enero</option>
-                  <option value="Febrero">Febrero</option>
-                  <option value="Marzo">Marzo</option>
-                  <!-- Agrega aquí los demás meses -->
+                  <!-- Automatizado en alumno.js -->
                 </select>
               </div>
             </div>

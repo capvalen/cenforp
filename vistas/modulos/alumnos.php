@@ -48,7 +48,7 @@ if ($_SESSION["perfil"] == "Secretaria") {
 
               <th style="width:10px">#</th>
               <th>Código</th>
-              <th>Nombre</th>
+              <th>Apellidos y Nombres</th>
               <th>DNI</th>
               <th>Email</th>
               <th>Teléfono</th>
@@ -78,7 +78,7 @@ if ($_SESSION["perfil"] == "Secretaria") {
 
                     <td>' . $value["codigo"] . '</td>
 
-                    <td>' . $value["nombre"] . '</td>
+                    <td>' . $value["apellidos"] .' ' . $value["nombre"] . '</td>
 
                     <td>' . $value["dni"] . '</td>
 
@@ -90,7 +90,7 @@ if ($_SESSION["perfil"] == "Secretaria") {
 
                     <td>' . $value["fechaNacimiento"] . '</td>     
 
-                    <td>' . $value["idOcupacion"] . '</td>             
+                    <td>' . $value["opcionOcupacional"] . '</td>             
 
                     <td>
                       <div class="btn-group">

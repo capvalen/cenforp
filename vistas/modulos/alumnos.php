@@ -228,11 +228,11 @@ MODAL EDITAR ALUMNO
                   $item = null;
                   $valor = null;
 
-                  $ocupacions = ControladorOcupaciones::ctrMostrarOcupaciones($item, $valor);
+                  $ocupaciones = ControladorOcupaciones::ctrMostrarOcupaciones($item, $valor);
 
-                  foreach ($ocupacions as $key => $value) {
+                  foreach ($ocupaciones as $value) {
 
-                    echo '<option value="' . $value["idOcupacion"] . '">' . $value["ocupacion"] . '</option>';
+                    echo '<option value="' . $value["id"] . '">' . $value["opcionOcupacional"] . '</option>';
                   }
 
                   ?>

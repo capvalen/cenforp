@@ -25,7 +25,7 @@ $(".tablas").on("click", ".btnEditarAlumno", function(){
 	       $("#editarEmail").val(respuesta["correo"]);
 	       $("#editarTelefono").val(respuesta["telefono"]);
 	       $("#editarFechaNacimiento").val(respuesta["fechaNacimiento"]);
-	       $("#editarOcupacion").val(respuesta["opcionOcupacional"]);
+	       $("#editarOcupacion").val(respuesta["idOcupacion"]);
 
 	  }
 

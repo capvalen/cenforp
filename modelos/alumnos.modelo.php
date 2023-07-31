@@ -170,14 +170,14 @@ class ModeloAlumnos
 	static public function mdlEditarAlumnoGestion($tabla, $datos)
 	{
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, dni = :dni, correo = :correo, telefono = :telefono, opcionOcupacional = :opcionOcupacional, fechaNacimiento = :fechaNacimiento WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, dni = :dni, correo = :correo, telefono = :telefono, idOcupacion = :idOcupacion, fechaNacimiento = :fechaNacimiento WHERE id = :id");
 
 		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":dni", $datos["dni"], PDO::PARAM_INT);
 		$stmt->bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
 		$stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_INT);
-		$stmt->bindParam(":opcionOcupacional", $datos["opcionOcupacional"], PDO::PARAM_STR);
+		$stmt->bindParam(":idOcupacion", $datos["idOcupacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":fechaNacimiento", $datos["fechaNacimiento"], PDO::PARAM_STR);
 
 

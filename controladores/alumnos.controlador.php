@@ -252,7 +252,7 @@ class ControladorAlumnos
 					"dni" => $_POST["editarDocumentoId"],
 					"correo" => $_POST["editarEmail"],
 					"telefono" => $_POST["editarTelefono"],
-					"opcionOcupacional" => $_POST["editarOcupacion"],
+					"idOcupacion" => $_POST["editarOcupacion"],
 					"fechaNacimiento" => $_POST["editarFechaNacimiento"],
 				);
 

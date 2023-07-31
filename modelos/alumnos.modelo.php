@@ -13,13 +13,13 @@ class ModeloAlumnos
 	{
 
 		$conexion = Conexion::conectar();
-		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, idOcupacion, condicion, turno, observaciones, nombre, apellidos, dni, ocupacion, fechaNacimiento, idNacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma) VALUES
+		$stmt = $conexion ->prepare("INSERT INTO $tabla(codigo, idOcupacion, condicion, turno, observaciones, nombre, apellidos, dni, ocupacion, fechaNacimiento, idNacionalidad, lugarNacimiento, idioma, correo, institucion, calle, numero, distrito, provincia,departamento, telefono, nombreApoderado, ocupacionApoderado, grado, estadoCivil, nacionalidadApoderado, domicilioApoderado, firma, voucher) VALUES
 		(:codigo, :idOcupacion, :condicion, :turno, :observaciones, 
 		:nombre, :apellido, :dni, :ocupacion, :fechaNacimiento, :idNacionalidad, 
 		:lugarNacimiento, :idioma, :correo, :institucion, :calle, 
 		:numero, :distrito, :provincia, :departamento, :telefono, 
 		:nombreApoderado, :ocupacionApoderado, :grado, :estadoCivil, :nacionalidadApoderado, 
-		:domicilioApoderado, :firma)");
+		:domicilioApoderado, :firma, :adjunto)");
 
 		$stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
 		$stmt->bindParam(":idOcupacion", $datos["idOcupacion"], PDO::PARAM_STR);
@@ -54,6 +54,7 @@ class ModeloAlumnos
 
 		$stmt->bindParam(":domicilioApoderado", $datos["domicilioApoderado"], PDO::PARAM_STR);
 		$stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
+		$stmt->bindParam(":adjunto", $datos["adjunto"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			return $conexion -> lastInsertId();
@@ -89,6 +90,22 @@ class ModeloAlumnos
 			return $stmt->fetchAll();
 		}
 	}
+
+	static public function mdlMostrarNotas($idAlumno){
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM  notas where idAlumno = :idAlumno ");
+		$stmt->bindParam(":idAlumno" , $idAlumno, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$datos = Conexion::conectar()->prepare("SELECT * FROM  alumnos where id = :idAlumno ");
+		$datos->bindParam(":idAlumno" , $idAlumno, PDO::PARAM_INT);
+		$datos->execute();
+		$alumno = $datos->fetchAll();
+
+		$sent = Conexion::conectar()->prepare('SELECT * FROM configuraciones WHERE campo = "cantidadNotas"');
+		$sent -> execute();
+		$cantidadNotas = $sent->fetchAll();
+		return array ('notas' => $stmt->fetchAll(), 'cantidadNotas'=> $cantidadNotas[0]['valor'], 'alumno'=> $alumno[0]);
+	}
 	// Por Curso
 	static public function mdlMostrarAlumnosPorCurso($tabla, $item, $valor)
 	{
@@ -108,7 +125,6 @@ class ModeloAlumnos
 	/*=============================================
 	EDITAR ALUMNO
 	=============================================*/
-
 	static public function mdlEditarAlumno($tabla, $datos)
 	{
 
@@ -129,6 +145,26 @@ class ModeloAlumnos
 
 			return "error";
 		}
+	}
+
+
+	static public function mdlEditarNotas($idAlumno, $datos)
+	{
+		$borrarNotas = Conexion::conectar()->prepare("DELETE FROM `notas` WHERE idAlumno = :id");
+		$borrarNotas->bindParam(":id", $idAlumno, PDO::PARAM_INT);
+		$fin = $borrarNotas->execute();
+
+		foreach ($datos as $dato) {
+			$stmt = Conexion::conectar()->prepare("INSERT INTO `notas`(`idAlumno`, `nota`) VALUES (:idAlumno, :nota);");
+			$stmt->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+			$stmt->bindParam(":nota", $dato, PDO::PARAM_INT);
+			$stmt->execute();
+		}
+		
+
+		if($fin){ return "ok"; }
+		else { return "error"; }
+
 	}
 
 	static public function mdlEditarAlumnoGestion($tabla, $datos)
@@ -195,6 +231,7 @@ class ModeloAlumnos
 		}
 	}
 	static public function mdlRegistrarAsistencia($registros, $fecha){
+		//var_dump($registros);die();
 		foreach ($registros as $registro) {
 			$stmt = Conexion::conectar()->prepare("INSERT INTO `asistencias`( `idAlumno`, `fecha`, `presente`) VALUES ( :id, :fecha, :presente);
 			UPDATE `alumnos` SET `asistencia` = `asistencia` + :presente WHERE `alumnos`.`id` = :id; 
@@ -205,8 +242,9 @@ class ModeloAlumnos
 			$stmt->bindParam(":presente", $registro['presente'], PDO::PARAM_STR);
 			$stmt->bindParam(":id", $registro['id'], PDO::PARAM_STR);
 			$stmt->bindParam(":presente", $registro['presente'], PDO::PARAM_STR);
-			if($stmt->execute()) return 'ok';
-			else return 'error';
+			$stmt->execute();
 		}
+		return 'ok';
+		//else return 'error';
 	}
 }

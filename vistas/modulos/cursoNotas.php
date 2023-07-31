@@ -10,6 +10,12 @@ if ($_SESSION["perfil"] == "Secretario") {
 
   return;
 }
+$item = 'idOcupacion';
+$valor = $_SESSION['idOcupacion'];
+
+$alumnos = ControladorAlumnos::ctrMostrarAlumnoPorCurso($item, $valor);
+$preNota = ControladorAlumnos::ctrNotasDeAlumno(0);
+$cantidadNotas = $preNota['cantidadNotas'];
 
 ?>
 
@@ -58,9 +64,13 @@ if ($_SESSION["perfil"] == "Secretario") {
               <th>Apellidos y Nombres</th>
               <th>Documento ID</th>
               <th>Ocupación</th>
-              <th>Nota 1</th>
-              <th>Nota 2</th>
-              <th>Nota 3</th>
+              <?php 
+							for($i =0; $i<$cantidadNotas; $i++){
+								?>
+								<th> Nota <?=$i+1;?></th>
+								<?php
+							}
+							?>
               <th>Promedio</th>
               <th>Estado</th>
               <th>Mes</th>
@@ -73,20 +83,17 @@ if ($_SESSION["perfil"] == "Secretario") {
           <tbody>
 
             <?php
-            $item = "usuario";
-            $valor = $_SESSION["usuario"];
+             foreach ($alumnos as $key => $value) {
+							//Llamamos a las notas por cada alumno
+							$notas = ControladorAlumnos::ctrNotasDeAlumno($value['id']);
 
-            // Que usuario ingresa al sistema?
-            $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
-
-            $item = "opcionOcupacional";
-            $valor = $usuarios["opcionOcupacional"];
-            // El usuario ingresa al sistema que ocupacion enseña
-            $Alumnos = ControladorAlumnos::ctrMostrarAlumnoPorCurso($item, $valor);
-
-            foreach ($Alumnos as $key => $value) {
-
-              $promedio = (($value["notaUno"] + $value["notaDos"] + $value["notaTres"]) / 3);
+							$tdNotas = ''; $promedio = 0;
+							for($i =0; $i<$cantidadNotas; $i++){
+								$nota = floatval($notas['notas'][$i]['nota'] ?? 0);
+								$tdNotas.='<td>' . $nota . '</td>';
+								$promedio += $nota;
+							}
+							$promedio /= intval($cantidadNotas);
               $estado = "Desaprobado";
               if (10.5 >= $promedio) {
                 $estado = "Desaprobado";
@@ -103,11 +110,9 @@ if ($_SESSION["perfil"] == "Secretario") {
 
                     <td>' . $value["dni"] . '</td>
 
-                    <td>' . $value["opcionOcupacional"] . '</td>             
-                    <td>' . $value["notaUno"] . '</td>             
-                    <td>' . $value["notaDos"] . '</td>             
-                    <td>' . $value["notaTres"] . '</td>
-                    <td>' . number_format($promedio, 2, ',', '.') . '</td>             
+                    <td>' . $value["opcionOcupacional"] . '</td>'.
+										$tdNotas .
+                    '<td>' . number_format($promedio, 2, '.') . '</td>
                     <td>' . $estado . '</td>             
                     <td>' . $value["mes"] . '</td>   
                  
@@ -117,7 +122,7 @@ if ($_SESSION["perfil"] == "Secretario") {
 
                       <div class="btn-group">
                           
-                        <button class="btn btn-warning btnEditarAlumno" data-toggle="modal" data-target="#modalEditarAlumno" idAlumno="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>';
+                        <button class="btn btn-warning btnEditarNotas" data-toggle="modal" data-target="#modalEditarAlumno" idAlumno="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>';
 
               if ($_SESSION["perfil"] == "Administrador" or $_SESSION["perfil"] == "Secretaria") {
 
@@ -205,51 +210,21 @@ MODAL EDITAR Alumno
 
             </div>
 
-            <!-- ENTRADA PARA LA DIRECCIÓN -->
+            <input type="number" class="hidden" name="cantNotas" value="<?php echo $cantidadNotas; ?>" >
 
-            <div class="form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon">Nota 1</span>
-
-                <input type="number" min="0" max="20" class="form-control input-lg" name="editarNotaUno" id="editarNotaUno" required>
-
-              </div>
-
-            </div>
-
-            <!-- ENTRADA PARA LA DIRECCIÓN -->
-
-            <div class="form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon">Nota 2</span>
-
-                <input type="number" min="0" max="20" class="form-control input-lg" name="editarNotaDos" id="editarNotaDos" required>
-
-              </div>
-
-            </div>
-
-            <!-- ENTRADA PARA LA DIRECCIÓN -->
-
-            <div class="form-group">
-
-              <div class="input-group">
-
-                <span class="input-group-addon">Nota 3</span>
-
-                <input type="number" min="0" max="20" class="form-control input-lg" name="editarNotaTres" id="editarNotaTres" required>
-
-
-                <input type="hidden" id="editarAsistencia" name="editarAsistencia">
-              
-
-              </div>
-
-            </div>
+            <!-- ENTRADA PARA LAS NOTAS -->
+						<?php 
+							for($i =0; $i<$cantidadNotas; $i++){
+							?>
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-addon">Nota <?=$i+1?></span>
+									<input type="number" min="0" max="20" class="form-control input-lg" name="editarNota<?=$i+1?>" id="editarNota<?=$i+1?>" required>
+								</div>
+							</div>
+							<?php
+							}
+						?>
 
             <div class="form-group">
               <div class="input-group">

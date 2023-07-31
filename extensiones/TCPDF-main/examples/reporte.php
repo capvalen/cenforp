@@ -12,36 +12,49 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar si hay errores en la conexión
 if ($conn->connect_error) {
-    die("Error de conexión a la base de datos: " . $conn->connect_error);
+	die("Error de conexión a la base de datos: " . $conn->connect_error);
 }
 
 // Obtener los datos de la base de datos
-//$sql = "SELECT codigo, nombre, dni, ocupacion, notaUno, notaDos, notaTres, mes FROM alumnos";
-$sql = "SELECT a.*, o.opcionOcupacional FROM alumnos a inner join ocupaciones o on o.id = a.idOcupacion WHERE idOcupacion = {$_GET['idOcupacion']};";
+$sql = "SELECT a.*, o.opcionOcupacional , c.valor FROM alumnos a 
+inner join ocupaciones o on o.id = a.idOcupacion 
+JOIN configuraciones c WHERE idOcupacion ={$_GET['idOcupacion']};";
 $result = $conn->query($sql);
 
 $data = array();
+$tdNotas='';
 
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $promedio = ($row["notaUno"] + $row["notaDos"] + $row["notaTres"]) / 3;
-        $estado = ($promedio >= 10.5) ? 'Aprobado' : 'Desaprobado';
+	while ($row = $result->fetch_assoc()) {
+		$totalNotas = $row['valor'];
+		$sqlNotas = $conn->query("SELECT * FROM notas where idAlumno = {$row['id']};");
+		$i=0;
+		$promedio = 0;
+		$suma = 0; $calificaciones = [];
+		while( $resultado = $sqlNotas->fetch_assoc()){
+			$calificaciones[] = $resultado;
+			$suma += intval( $resultado['nota'] );
+		}
+		
+		$promedio = $suma / $totalNotas;
+		$estado = ($promedio >= 10.5) ? 'Aprobado' : 'Desaprobado';
 
-        $data[] = [
-            'codigo' => $row["codigo"],
-            'nombre' => $row["nombre"],
-            'documento' => $row["dni"],
-            'ocupacion' => $row["ocupacion"],
-            'nota1' => $row["notaUno"],
-            'nota2' => $row["notaDos"],
-            'nota3' => $row["notaTres"],
-            'mes' => $row["mes"],
-            'promedio' => number_format($promedio, 2, ',', '.'),
-            'estado' => $estado,
-            'opcionOcupacional' => $row["opcionOcupacional"],
-            
-        ];
-    }
+		$data[] = [
+			'idAlumno' => $row["id"],
+			'codigo' => $row["codigo"],
+			'nombre' => $row["nombre"],
+			'documento' => $row["dni"],
+			'ocupacion' => $row["ocupacion"],
+			'mes' => $row["mes"],
+			'promedio' => number_format($promedio, 2, '.'),
+			'estado' => $estado,
+			'opcionOcupacional' => $row["opcionOcupacional"],
+			'calificaciones' => $calificaciones,
+			'cantNotas' => count($calificaciones)
+			
+		];
+	}
+	//echo json_encode($data); die();
 }
 
 // Cerrar la conexión a la base de datos
@@ -72,37 +85,44 @@ $pdf->Cell(0, 10, 'Curso: ' . $data[0]['opcionOcupacional'], 0, 1, 'C');
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Ln(10); // Espacio después del título y el logo
 
+//Cabeceras de TD
+$tdCabecera = '';
+for($i=0; $i<$totalNotas; $i++){
+	$tdCabecera .= '<th> Nota'. $i+1 .'</th>';
+}
+
 // Generar la tabla con los datos de los alumnos
 $table = '<table border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Documento ID</th>
-            <th>Nota 1</th>
-            <th>Nota 2</th>
-            <th>Nota 3</th>
-            <th>Promedio</th>
-            <th>Estado</th>
-            <th>Mes</th>
-        </tr>
-    </thead>
-    <tbody>';
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Código</th>
+			<th>Nombre</th>
+			<th>Documento ID</th>' . $tdCabecera .
+			'<th>Promedio</th>
+			<th>Estado</th>
+			<th>Mes</th>
+		</tr>
+	</thead>
+	<tbody>';
 
 foreach ($data as $key => $row) {
-    $table .= '<tr>';
-    $table .= '<td>' . ($key + 1) . '</td>';
-    $table .= '<td>' . $row["codigo"] . '</td>';
-    $table .= '<td>' . $row["nombre"] . '</td>';
-    $table .= '<td>' . $row["documento"] . '</td>';
-    $table .= '<td>' . $row["nota1"] . '</td>';
-    $table .= '<td>' . $row["nota2"] . '</td>';
-    $table .= '<td>' . $row["nota3"] . '</td>';
-    $table .= '<td>' . $row["promedio"] . '</td>';
-    $table .= '<td>' . $row["estado"] . '</td>';
-    $table .= '<td>' . $row["mes"] . '</td>';
-    $table .= '</tr>';
+	$table .= '<tr>';
+	$table .= '<td>' . ($key + 1) . '</td>';
+	$table .= '<td>' . $row["codigo"] . '</td>';
+	$table .= '<td>' . $row["nombre"] . '</td>';
+	$table .= '<td>' . $row["documento"] . '</td>';
+	for($i=0; $i<$totalNotas; $i++){
+		if($i<$row['cantNotas']){
+			$table .= '<td>' . $row["calificaciones"][$i]['nota'] . '</td>';
+		}else
+			$table .= '<td> 0 </td>';
+	}
+
+	$table .= '<td>' . $row["promedio"] . '</td>';
+	$table .= '<td>' . $row["estado"] . '</td>';
+	$table .= '<td>' . $row["mes"] . '</td>';
+	$table .= '</tr>';
 }
 
 $table .= '</tbody></table>';

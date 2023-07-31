@@ -176,7 +176,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/plantilla.js"></script>
 <script src="vistas/js/usuarios.js"></script>
 <script src="vistas/js/ocupaciones.js"></script>
-<script src="vistas/js/alumnos.js?v=1.1"></script>
+<script src="vistas/js/alumnos.js?v=1.7"></script>
 <script src="vistas/js/ubigeos.js"></script>
 
 </body>

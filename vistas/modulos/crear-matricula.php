@@ -44,7 +44,7 @@ if ($_SESSION["perfil"] == "Docente") {
 					<div class="col-xs-12 col-md-12  ">
 						<div class="box box-primary ">
 							<div class="box-header">
-								<h4 class="text-primary">Código de Matricula</h4>
+								<h4 class="text-primary">Datos de Matricula</h4>
 							</div>
 							<div class="box-body">
 								<!-- ENTRADA PARA EL CÓDIGO -->
@@ -107,6 +107,23 @@ if ($_SESSION["perfil"] == "Docente") {
 									<input type="text" class="form-control text-uppercase input-lg" name="nuevoObservaciones" placeholder="Ingresar observaciones">
 								</div>
 								</div>
+								<label id="lblSubida" for="">Vocuher de pago:</label>
+								<div class="form-inline" id="formSubida">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-upload" aria-hidden="true"></i></span>
+											<input type="file" class="form-control input-lg" name="nuevoArchivo" id="nuevoArchivo" placeholder="Adjuntar archivo">
+											<input type="text" class="hidden" id="adjunto" name="adjunto">
+											
+										</div>
+									</div>
+									
+									<button class="btn btn-success" id="btnSubirArchivo"><i class="fa fa-upload" aria-hidden="true"></i> Subir adjunto</button>
+								</div>
+									<div class="col-sm-4 alert alert-success hidden" id="alertSubido">
+										<h4><i class="fa fa-check" aria-hidden="true"></i> Voucher Subido!</h4>
+										Archivo subido correctamente
+									</div>
 							</div>
 						</div>
 					</div>
@@ -232,14 +249,14 @@ if ($_SESSION["perfil"] == "Docente") {
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoCalle" placeholder="Ingresar calle" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoCalle" placeholder="Ingresar calle" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL CENTRO DE ESTUDIO DONDE CULMINÓ -->
 								<div class="form-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fa fa-home"></i></span>
-										<input type="text" class="form-control input-lg" name="nuevoNumero" placeholder="Ingresar numero de la calle" >
+										<input type="text" class="form-control text-uppercase input-lg" name="nuevoNumero" placeholder="Ingresar numero de la calle" >
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL DEPARTAMENTO -->
@@ -368,13 +385,7 @@ if ($_SESSION["perfil"] == "Docente") {
 									</div>
 								</div>
 								<!-- ENTRADA PARA EL ARCHIVO ADJUNTO -->
-								<!-- <label for="">Vocuher de pago:</label>
-								<div class="form-group">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-										<input type="file" class="form-control input-lg" name="nuevoArchivo" placeholder="Adjuntar archivo">
-									</div>
-								</div> -->
+								
 							</div>
 						</div>
 

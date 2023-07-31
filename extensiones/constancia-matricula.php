@@ -124,6 +124,10 @@ $pdf->writeHTML($table, true, false, false, false, '');
 
 $pdf->Cell(0, 10, 'Firma: ' , 0, 1);
 $pdf->Rect(40, 160, 30	, 40, 'D');
+if( $data['voucher'] <>'' ){
+$pdf->Image( __DIR__.'/../vistas/dist/img/uploads/'. $data['voucher'] , 100,160,90,100, '', '', '', false, 300, '', false, false, 0, false, false, false);
+	
+}
 
 // Pie de página con numeración
 $pdf->SetY(-15);

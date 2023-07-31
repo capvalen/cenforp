@@ -22,3 +22,14 @@ UPDATE `usuarios` SET `idOcupacion` = '4' WHERE `usuarios`.`id` = 18;
 UPDATE `usuarios` SET `idOcupacion` = '5' WHERE `usuarios`.`id` = 19; 
 UPDATE `usuarios` SET `idOcupacion` = '6' WHERE `usuarios`.`id` = 20; 
 ALTER TABLE `alumnos` ADD `apellidos` VARCHAR(250) NOT NULL AFTER `nombre`; 
+
+
+ALTER TABLE `alumnos` ADD `voucher` VARCHAR(250) NOT NULL DEFAULT '' AFTER `registro`; 
+
+CREATE TABLE `cenforp`.`configuraciones` (`id` INT NOT NULL AUTO_INCREMENT , `campo` VARCHAR(250) NOT NULL , `valor` VARCHAR(250) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+INSERT INTO `configuraciones` (`id`, `campo`, `valor`) VALUES (NULL, 'cantidadNotas', '5'); 
+CREATE TABLE `cenforp`.`notas` (`id` INT NOT NULL AUTO_INCREMENT , `idAlumno` INT NOT NULL , `nota` INT NOT NULL , `registro` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+ALTER TABLE `alumnos`
+  DROP `notaUno`,
+  DROP `notaDos`,
+  DROP `notaTres`;

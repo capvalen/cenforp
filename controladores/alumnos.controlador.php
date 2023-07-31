@@ -48,6 +48,7 @@ class ControladorAlumnos
 					"estadoCivilApoderado" => strtoupper($_POST["nuevoEstadoCivilApoderado"]),
 					"nacionalidadApoderado" => strtoupper($_POST["nuevaNacionalidadApoderado"]),
 					"domicilioApoderado" => strtoupper($_POST["nuevaDomicilioApoderado"]),
+					"adjunto" => $_POST["adjunto"],
 					"firma" => strtoupper($_POST["nuevaFirma"])
 				);
 
@@ -107,6 +108,14 @@ class ControladorAlumnos
 		return $respuesta;
 	}
 
+	static public function ctrNotasDeAlumno($idAlumno)
+	{
+
+		$respuesta = ModeloAlumnos::mdlMostrarNotas($idAlumno);
+
+		return $respuesta;
+	}
+
 	static public function ctrMostrarAlumnoPorCurso($item, $valor)
 	{
 
@@ -123,67 +132,35 @@ class ControladorAlumnos
 
 	static public function ctrEditarAlumnoNotas()
 	{
-
+		//var_dump($_POST); die();
 		if (isset($_POST["editarAlumno"])) {
-
-			if (
-				preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarAlumno"]) &&
-				preg_match('/^[0-9]+$/', $_POST["editarDocumentoId"])
-			) {
-
-				$tabla = "alumnos";
-
-				$datos = array(
-					"id" => $_POST["idAlumno"],
-					"nombre" => $_POST["editarAlumno"],
-					"dni" => $_POST["editarDocumentoId"],
-					"notaUno" => $_POST["editarNotaUno"],
-					"notaDos" => $_POST["editarNotaDos"],
-					"notaTres" => $_POST["editarNotaTres"],
-					"asistencia" => $_POST["editarAsistencia"],
-					"mes" => $_POST["editarMes"],
-					
-				);
-
-				$respuesta = ModeloAlumnos::mdlEditarAlumno($tabla, $datos);
-
-				if ($respuesta == "ok") {
-
-					echo '<script>
-
-					swal({
-						  type: "success",
-						  title: "La nota del alumno ha sido cambiado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "cursoNotas";
-
-									}
-								})
-
-					</script>';
-				}
-			} else {
-
+			$datos = [];
+	
+			for($i=0; $i<$_POST['cantNotas']; $i++){
+				array_push($datos, $_POST['editarNota'.$i+1]);
+			}
+			echo '<script>console.log('.var_dump($datos).')</script>';
+	
+			$respuesta = ModeloAlumnos::mdlEditarNotas($_POST['idAlumno'], $datos);
+	
+			if ($respuesta == "ok") {
+	
 				echo '<script>
-
-					swal({
-						  type: "error",
-						  title: "¡La nota del alumno no puede ir vacío o llevar caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {
-
-							window.location = "cursoNotas";
-
-							}
-						})
-
-			  	</script>';
+	
+				swal({
+						type: "success",
+						title: "La nota del alumno ha sido cambiado correctamente",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+						}).then(function(result){
+								if (result.value) {
+	
+								window.location = "cursoNotas";
+	
+								}
+							})
+	
+				</script>';
 			}
 		}
 	}

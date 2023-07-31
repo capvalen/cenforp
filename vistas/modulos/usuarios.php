@@ -75,6 +75,7 @@ if ($_SESSION["perfil"] == "Especial" || $_SESSION["perfil"] == "Vendedor") {
             $valor = null;
 
             $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+            //var_dump( $usuarios); die();
 
             foreach ($usuarios as $key => $value) {
 
@@ -424,7 +425,7 @@ MODAL EDITAR USUARIO
 
                   foreach ($ocupacions as $key => $value) {
 
-                    echo '<option value="' . $value["opcionOcupacional"] . '">' . $value["opcionOcupacional"] . '</option>';
+                    echo '<option value="' . $value["id"] . '">' . $value["opcionOcupacional"] . '</option>';
                   }
 
                   ?>

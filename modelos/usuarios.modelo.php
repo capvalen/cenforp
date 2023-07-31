@@ -12,7 +12,7 @@ class ModeloUsuarios{
 
 		if($item != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on t.idOcupacion = o.id  WHERE $item = :$item");
+			$stmt = Conexion::conectar()->prepare("SELECT t.*, o.opcionOcupacional FROM $tabla t inner join ocupaciones o on t.idOcupacion = o.id  WHERE t.$item = :$item");
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -39,13 +39,13 @@ class ModeloUsuarios{
 
 	static public function mdlIngresarUsuario($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, usuario, password, perfil, opcionOcupacional, foto) VALUES (:nombre, :usuario, :password, :perfil, :ocupacion, :foto)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, usuario, password, perfil, idOcupacion, foto) VALUES (:nombre, :usuario, :password, :perfil, :idOcupacion, :foto)");
 
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
 		$stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-		$stmt->bindParam(":ocupacion", $datos["ocupacion"], PDO::PARAM_STR);
+		$stmt->bindParam(":idOcupacion", $datos["idOcupacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
 
 		if($stmt->execute()){

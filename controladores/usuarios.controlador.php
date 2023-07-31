@@ -145,7 +145,7 @@ class ControladorUsuarios
 					"usuario" => $_POST["nuevoUsuario"],
 					"password" => $encriptar,
 					"perfil" => $_POST["nuevoPerfil"],
-					"ocupacion" => $_POST["nuevoOcupacion"],
+					"idOcupacion" => $_POST["nuevoOcupacion"],
 					"foto" => $ruta
 				);
 

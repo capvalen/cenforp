@@ -68,13 +68,13 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 		contentType: false,
 		processData: false,
 		dataType: "json",
-		success: function(respuesta){
+		success: function(respuesta){ console.log(respuesta)
 			
 			$("#editarNombre").val(respuesta["nombre"]);
 			$("#editarUsuario").val(respuesta["usuario"]);
 			$("#editarPerfil").html(respuesta["perfil"]);
 			$("#editarPerfil").val(respuesta["perfil"]);
-			$("#editarOcupacion").val(respuesta["opcionOcupacional"]);
+			$("#editarOcupacion").val(respuesta["idOcupacion"]);
 			$("#fotoActual").val(respuesta["foto"]);
 
 			$("#passwordActual").val(respuesta["password"]);

@@ -252,7 +252,7 @@ MODAL AGREGAR USUARIO
 
                   foreach ($ocupacions as $key => $value) {
 
-                    echo '<option value="' . $value["opcionOcupacional"]  . '">' . $value["opcionOcupacional"] . '</option>';
+                    echo '<option value="' . $value["id"]  . '">' . $value["opcionOcupacional"] . '</option>';
                   }
 
                   ?>
